@@ -5,16 +5,32 @@ var expect = chai.expect;
 describe('validation', function() {
     describe('without validators', function() {
         it('run should returns null by default', function() {
-            var validators = Validation.create();
-            expect(validators.run('anything')).to.be.null;
+            expect(Validation.create().run('anything')).to.be.null;
         });
 
         it.skip('async run should returns null by default', function(done) {
-            var validators = Validation.create();
-            validators.run('anything', function(err) {
+            Validation.create().run('anything', function(err) {
                 expect(err).to.be.null;
                 done();
             });
+        });
+    });
+
+    describe('with inline validators', function() {
+        it('run should returns error', function() {
+            Validation
+                .create(function (val) { return val === '5'? null : 'Ouch!'; })
+                .run('not 5')
+                .should.be.eq('Ouch!');
+        });
+
+        it.skip('async run should returns null by default', function(done) {
+            Validation
+                .create(function (val) { return val === '5'? null : 'Ouch!'; })
+                .run('not 5', function (err) {
+                    err.should.be.eq('Ouch!');
+                    done();
+                });
         });
     });
 

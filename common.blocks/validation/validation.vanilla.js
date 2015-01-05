@@ -13,7 +13,13 @@ modules.define('validation',
          * @returns {Validator}
          */
         create : function() {
-            return new Validation();
+            var res = new Validation();
+            if(arguments.length) {
+                for(var i = 0, l = arguments.length; i < l; i++) {
+                    res.push(arguments[i]);
+                }
+            }
+            return res;
         }
     });
 
