@@ -3,17 +3,24 @@
  */
 
 modules.define('validation_numbers',
-    function (provide) {
+    ['objects'],
+    function (provide, objects) {
 
+    var DEFAULT_MESSAGE = 'Should be a number (e.g. 123.45)';
     var NUMBERS_RE = /^\d+(\.\d+)?$/;
 
     provide(function (message, params) {
-        message = message || 'Should be a number (e.g. 123.45)';
-        if(params && params.min) {
-            params.min = Number(params.min);
-        }
-        if(params && params.max) {
-            params.max = Number(params.max);
+        message = message || DEFAULT_MESSAGE;
+
+        if(objects.isEmpty(params)) {
+            params = null;
+        } else {
+            if(params.min) {
+                params.min = Number(params.min);
+            }
+            if(params.max) {
+                params.max = Number(params.max);
+            }
         }
 
         return function (val) {

@@ -3,8 +3,14 @@
  */
 
 modules.define('validation_card',
-    function(provide) {
+    ['objects'],
+    function(provide, objects) {
 
+    var DEFAULT_MESSAGE = {
+        wrong_length : 'Card number should be made of 16 or 18 digits',
+        luhn_failed : 'Incorrect card number',
+        unsupported : 'Unsupported card type'
+    };
     var DIGITS_RE = /^\d+$/;
     var CARDS_RE = [
         {
@@ -22,6 +28,8 @@ modules.define('validation_card',
     ];
 
     return provide(function(message, params) {
+        message = objects.extend(message, DEFAULT_MESSAGE);
+
         return function (val) {
             if(!val) {
                 return null;
@@ -29,22 +37,22 @@ modules.define('validation_card',
 
             if((val.length !== 16 && val.length !== 18) ||
                 DIGITS_RE.test(val)) {
-                return message;
+                return message.wrong_length;
             }
 
             if(!_luhn(val)) {
-                return message;
+                return message.luhn_failed;
             }
 
             var cardType = _detectType(val);
 
             if(!cardType) {
-                return message;
+                return message.unsupported;
             }
 
             // if you need concrete card type
             if(params.cardType && !~params.cardType.indexOf(cardType.name)) {
-                return message;
+                return message.unsupported;
             }
 
             return null;
