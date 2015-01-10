@@ -5,11 +5,11 @@ var expect = chai.expect;
 describe('validation', function() {
     describe('without validators', function() {
         it('run should returns null by default', function() {
-            expect(Validation.create().run('anything')).to.be.null;
+            expect(Validation.create().check('anything')).to.be.null;
         });
 
         it.skip('async run should returns null by default', function(done) {
-            Validation.create().run('anything', function(err) {
+            Validation.create().check('anything', function(err) {
                 expect(err).to.be.null;
                 done();
             });
@@ -20,14 +20,14 @@ describe('validation', function() {
         it('run should returns error', function() {
             Validation
                 .create(function (val) { return val === '5'? null : 'Ouch!'; })
-                .run('not 5')
+                .check('not 5')
                 .should.be.eq('Ouch!');
         });
 
         it.skip('async run should returns null by default', function(done) {
             Validation
                 .create(function (val) { return val === '5'? null : 'Ouch!'; })
-                .run('not 5', function (err) {
+                .check('not 5', function (err) {
                     err.should.be.eq('Ouch!');
                     done();
                 });
@@ -51,44 +51,44 @@ describe('validation', function() {
         });
 
         it('run on empty value should not return error', function() {
-            expect(validators.run('')).to.be.null;
+            expect(validators.check('')).to.be.null;
         });
 
         it('run on "xx" should not return error', function() {
-            expect(validators.run('xx')).to.be.null;
+            expect(validators.check('xx')).to.be.null;
         });
 
         it('run on "1" should return error', function() {
-            expect(validators.run('1')).to.be.eq('wrong length');
+            expect(validators.check('1')).to.be.eq('wrong length');
         });
 
         it('run on "42" should return error', function() {
-            expect(validators.run('42')).to.be.eq('42 is denied, sorry');
+            expect(validators.check('42')).to.be.eq('42 is denied, sorry');
         });
 
         it.skip('async run on empty value should not return error', function(done) {
-            validators.run('', function(err) {
+            validators.check('', function(err) {
                 expect(err).to.be.null;
                 done();
             });
         });
 
         it.skip('async run on "xx" should not return error', function(done) {
-            validators.run('xx', function(err) {
+            validators.check('xx', function(err) {
                 expect(err).to.be.null;
                 done();
             });
         });
 
         it.skip('async run on "1" should return error', function(done) {
-            validators.run('1', function(err) {
+            validators.check('1', function(err) {
                 expect(err).to.be.eq('wrong length');
                 done();
             });
         });
 
         it.skip('async run on "42" should return error', function(done) {
-            validators.run('42', function(err) {
+            validators.check('42', function(err) {
                 expect(err).to.be.eq('42 is denied, sorry');
                 done();
             });

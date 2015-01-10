@@ -57,7 +57,7 @@ modules.define('validation',
      * @? param {?function(?String)} fn
      * @returns {?String} - filled with an error or null if all is fine
      */
-    ptp.run = function(value) {
+    ptp.check = function(value) {
         for(var i = 0, l = this._stack.length; i < l; i++) {
             var res = this._stack[i](value);
             if(res !== null) {
