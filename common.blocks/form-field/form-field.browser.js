@@ -15,7 +15,6 @@ provide(BEMDOM.decl(this.name, /** @lends form-field.prototype */{
      * @abstract
      */
     getName : function() {
-        return '';
     },
 
     /**
@@ -34,6 +33,7 @@ provide(BEMDOM.decl(this.name, /** @lends form-field.prototype */{
      */
     setVal : function() {
     }
+
 }, /** @lends form-field */{
     live : true
 }));

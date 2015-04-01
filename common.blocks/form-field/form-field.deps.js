@@ -1,6 +1,9 @@
 [{
     mustDeps : [
         { block : 'i-bem', elems : ['dom'] }
+    ],
+    shouldDeps : [
+        { elem : 'slugify' }
     ]
 }, {
     tech : 'tmpl-spec.js',
